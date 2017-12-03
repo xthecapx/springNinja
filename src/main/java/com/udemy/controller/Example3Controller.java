@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/example3")
@@ -52,11 +55,19 @@ public class Example3Controller {
     }
 
     @PostMapping("/addperson")
-    public ModelAndView addPerson(@ModelAttribute("person") Person person) {
-        LOGGER.info("METHOD: 'addPerson' -- PARAMS: " + person);
-        ModelAndView mva = new ModelAndView(RESULT_VIEW);
-        mva.addObject("person", person);
-        LOGGER.info("TEMPLATE: " + RESULT_VIEW + " DATA: " + person);
+    public ModelAndView addPerson(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
+
+        ModelAndView mva = new ModelAndView();
+
+        if (bindingResult.hasErrors()) {
+            mva.setViewName(FORM_VIEW);
+        } else {
+            mva.setViewName(RESULT_VIEW);
+            mva.addObject("person", person);
+        }
+
+
+        // LOGGER.info("TEMPLATE: " + RESULT_VIEW + " DATA: " + person);
 
         return mva;
     }
