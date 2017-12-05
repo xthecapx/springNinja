@@ -1,57 +1,23 @@
-package com.udemy.entity;
+package com.udemy.model;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name="course")
-public class Course {
-
-    @Id
-    @GeneratedValue
-    @Column(name="id")
-    private int id;
-
-    @Column(name="name")
+public class CourseModel {
     private String name;
-
-    @Column(name="description")
     private String description;
-
-    @Column(name="price")
     private int price;
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", hours=" + hours +
-                '}';
-    }
-
-    @Column(name="hours")
     private int hours;
 
-    public Course() { }
-
-    public Course(String name, String description, int price, int hours) {
+    public CourseModel(String name, String description, int price, int hours) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.hours = hours;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public CourseModel() {
     }
 
     public String getName() {
+
         return name;
     }
 
