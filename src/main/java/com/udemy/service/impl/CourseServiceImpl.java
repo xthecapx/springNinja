@@ -40,15 +40,19 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public int removeCourse(int id) {
+    public void removeCourse(int id) {
         courseJpaRepository.delete(id);
-        return 0;
     }
 
     @Override
-    public Course updateCourse(CourseModel courseModel) {
+    public Course updateCourse(int id, CourseModel courseModel) {
         Course course = courseConverter.modelToEntity(courseModel);
-        LOGGER.info("Call updateCourse() -- " + course);
+        course.setId(id);
         return courseJpaRepository.save(course);
+    }
+
+    @Override
+    public Course findById(int id) {
+        return courseJpaRepository.findById(id);
     }
 }

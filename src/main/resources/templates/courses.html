@@ -34,6 +34,7 @@
                 <th>description</th>
                 <th>price</th>
                 <th>hours</th>
+                <th>Tools</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,14 @@
                 <td th:text="${course.description}"></td>
                 <td th:text="${course.price}"></td>
                 <td th:text="${course.hours}"></td>
+                <td>
+                    <form action="#" th:action="@{'/courses/editcourse/{id}'(id=${course.id})}" method="get">
+                        <button type="submit" value="U">Edit</button>
+                    </form>
+                    <form action="#" th:action="@{'/courses/deletecourse/{id}'(id=${course.id})}" th:method="delete">
+                        <button type="submit" value="D">Delete</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

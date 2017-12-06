@@ -9,16 +9,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
     private static final String COURSES_VIEW = "courses";
+    private static final String EDIT_VIEW = "edit";
     private static final Log LOGGER = LogFactory.getLog(CourseController.class);
 
     @Autowired
@@ -44,6 +42,28 @@ public class CourseController {
     public String addCourses(@ModelAttribute("course") CourseModel courseModel) {
         // LOGGER.info("Call: addCourses -- " + course.toString() );
         courseService.addCourse(courseModel);
+        return "redirect:/courses/listcourses";
+    }
+
+    @DeleteMapping("/deletecourse/{id}")
+    public String deleteCourse(@PathVariable int id) {
+        courseService.removeCourse(id);
+
+        return "redirect:/courses/listcourses";
+    }
+
+    @GetMapping("/editcourse/{id}")
+    public ModelAndView editCourse(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView(EDIT_VIEW);
+        mav.addObject("course", courseService.findById(id));
+
+        return mav;
+    }
+
+    @PutMapping("/updatecourse/{id}")
+    public String updateCourse(@PathVariable int id, @ModelAttribute CourseModel courseModel) {
+        courseService.updateCourse(id, courseModel);
+
         return "redirect:/courses/listcourses";
     }
 }
